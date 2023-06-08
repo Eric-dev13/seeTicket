@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <title>Acceuil</title>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a href="#" class="btn btn-outline-primary text-dark" id="auth">S'authentifier</a>
+            </div>
+            <div class="col">
+                <a href="#" class="btn btn-outline-primary text-dark" id="getData">Catégorie</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="root"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        let root = document.querySelector('#root');
+
+        const authenticate = async () => {
+            const id = 'apidigicsi';
+            const password = 'R89x2seXL';
+
+            const credentials = `${id}:${password}`;
+            const encodedCredentials = btoa(credentials);
+
+            try {
+                const authResponse = await fetch('https://front.apirecette.digitick-ppe.com/v1.1/authorization/token', {
+                    method: 'POST',
+                    headers: {
+                        'accept': 'application/hal+json',
+                        'Authorization': `Basic ${encodedCredentials}`
+                    }
+                });
+
+                if (authResponse.ok) {
+                    const authData = await authResponse.json();
+                    console.log('Token d\'accès :', authData.accessToken);
+                    localStorage.setItem('token', authData.accessToken);
+                    return authData.accessToken;
+                } else {
+                    throw new Error('Erreur lors de l\'authentification.');
+                }
+            } catch (error) {
+                console.error(error);
+                throw error;
+            }
+        }
+
+        //GET request using fetch inside useEffect React hook
+        const auth = async () => {
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'accept': 'application/hal+json',
+                    'Authorization': 'Basic ' +  btoa('apidigicsi:R89x2seXL')
+                }
+            };
+            await fetch('https://front.apirecette.digitick-ppe.com/v1.1/authorization/token', requestOptions)
+                .then(response => response.json())
+                .then(
+                    (data) => {
+                        return data;
+                        console.log(data)
+                        // Remplace le jeton dans le localStorage
+                        // SetLocalStorage('user', data);
+                        // console.log('set refreshToken', data);
+                    },
+                )
+        }
+
+
+        const getData = async(url) => {
+            let token = localStorage.getItem('token');
+
+            // GET request using fetch inside useEffect React hook
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    'accept': 'application/hal+json',
+                    'Authorization': `Bearer ${token}`
+                },
+            };
+            await fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(
+                    (data) => {
+                        // console.log(data._embedded.hours[0].dateStart);
+                        // data._embedded.hours[0].eventName;
+                        console.log(data._embedded.hours);
+                        for (let index = 0; index < data._embedded.hours.length; index++) {
+                            let element = data._embedded.hours[index];
+                            // const element = array[index];
+                            root.innerHTML += `
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <div class="d-flex justify-co ntent-end w-100 align-items-center py-3">
+                                    <select id="langues" class="custom-select bg-dark text-white" style="width: 150px;">
+                                        <option value="fr">Français</option>
+                                        <option value="en">English</option>
+                                        <option value="es">Español</option>
+                                    </select>
+                                </div>
+                                <h1 id="eventName"></h1>
+                                <div class="card" style="width: 18rem;">
+                                    <img src="images/party.jpg" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${element.eventName}</h5>
+                                        <p class="card-text" id="dateStart">${element.dateStart}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                        }
+
+                       
+
+                        // return data._embedded.hours;
+                    }
+                );
+        }
+
+        document.querySelector('#auth').addEventListener('click', () => {
+            authenticate();
+        });
+
+        document.querySelector('#getData').addEventListener('click', () => {
+            getData('https://front.apirecette.digitick-ppe.com/v1.1/distribution/salesChannels/13357/calendar/day/2023-06-09?lang=fr');
+        });
+
+
+
+    </script>
+</body>
+
+</html>
