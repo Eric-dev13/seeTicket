@@ -16,7 +16,7 @@
 
 <body>
     <div class="container">
-        <div class="row">
+        <div class="row p-5 border">
             <div class="col">
                 <a href="#" class="btn btn-outline-primary text-dark" id="auth">S'authentifier</a>
             </div>
@@ -24,11 +24,10 @@
                 <a href="#" class="btn btn-outline-primary text-dark" id="getData">Catégorie</a>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div id="root"></div>
-            </div>
-        </div>
+
+    <div id="root"></div>
+
+
     </div>
 
 
@@ -87,6 +86,25 @@
                 )
         }
 
+        const getShowId = async(url) => {
+            let token = localStorage.getItem('token');
+
+            // GET request using fetch inside useEffect React hook
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    'accept': 'application/hal+json',
+                    'Authorization': `Bearer ${token}`
+                },
+            };
+            await fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(
+                    (data) => {
+                        console.log(data);
+                    }
+                )
+        }
 
         const getData = async(url) => {
             let token = localStorage.getItem('token');
@@ -103,30 +121,33 @@
                 .then(response => response.json())
                 .then(
                     (data) => {
-                        // console.log(data._embedded.hours[0].dateStart);
-                        // data._embedded.hours[0].eventName;
                         console.log(data._embedded.hours);
+                        root.innerHTML += `
+                        <div class="d-flex justify-content-end w-100 align-items-center py-3">
+                            <select id="langues" class="custom-select bg-dark text-white" style="width: 150px;">
+                                <option value="fr">Français</option>
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                            </select>
+                        </div>
+
+                        <h1 class="text-center fw-bold">Nos évenements</h1>
+                        `
+
                         for (let index = 0; index < data._embedded.hours.length; index++) {
                             let element = data._embedded.hours[index];
-                            // const element = array[index];
                             root.innerHTML += `
-                            <div class="d-flex flex-column align-items-center justify-content-center">
-                                <div class="d-flex justify-co ntent-end w-100 align-items-center py-3">
-                                    <select id="langues" class="custom-select bg-dark text-white" style="width: 150px;">
-                                        <option value="fr">Français</option>
-                                        <option value="en">English</option>
-                                        <option value="es">Español</option>
-                                    </select>
-                                </div>
-                                <h1 id="eventName"></h1>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="images/party.jpg" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${element.eventName}</h5>
-                                        <p class="card-text" id="dateStart">${element.dateStart}</p>
+                            <a href="#" data-showId = "${element.showId}" id="eventDetail">
+                                <div class="d-flex flex-column align-items-center justify-content-center mb-5">
+                                    <div class="card" style="width: 18rem;">
+                                        <img src="assets/img/marcela.png" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title fw-bold">${element.eventName}</h5>
+                                            <p class="card-text" id="dateStart">${element.dateStart}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                             </a>
                         `
                         }
 
@@ -143,7 +164,14 @@
 
         document.querySelector('#getData').addEventListener('click', () => {
             getData('https://front.apirecette.digitick-ppe.com/v1.1/distribution/salesChannels/13357/calendar/day/2023-06-09?lang=fr');
+            
+            document.querySelector('#eventDetail').addEventListener('click', () => {
+            const showId = document.querySelector('#eventDetail').getAttribute('data-showId');
+            getShowId(`https://front.apirecette.digitick-ppe.com/v1.1//distribution/salesChannels/13357/shows/${showId}/prices`)
         });
+        });
+
+        
 
 
 
