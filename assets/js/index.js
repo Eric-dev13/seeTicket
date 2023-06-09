@@ -25,11 +25,11 @@ const getDateNow = () => {
 }
 
 
-// Requête d'authentification + requete pour obtenir la liste des évenements
+// Requete pour obtenir la liste des évenements
 const showEvents = async () => {
     const evenements = await getData(`https://front.apirecette.digitick-ppe.com/v1.1/distribution/salesChannels/13357/calendar/day/${getDateNow()}?lang=fr`);
     console.log('Evenements', evenements._embedded.hours)
-    root.innerHTML += `
+    root.innerHTML = `
                 <div class="d-flex justify-content-end py-3">
                     <select id="langues" class="custom-select text-bg-dark rounded p-1" style="width: 150px;">
                         <option value="fr">Français</option>
