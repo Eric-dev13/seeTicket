@@ -48,7 +48,7 @@ const eventDetail = (evenements) =>{
     let data= '';
     evenements._embedded.hours.map(evenement => { 
         data += `
-                <div data-showId = "${evenement.showId}" class="eventDetail d-flex flex-column align-items-center justify-content-center mb-2" style="cursor:pointer;">
+                <div data-showId = "${evenement.showId}" class="eventDetail d-flex flex-column align-items-center justify-content-center mb-4" style="cursor:pointer;">
                     <div class="card" style="width: 18rem;">
                         <img src="assets/img/bg.jpg" class="card-img-top" alt="...">
                         <div class="card-body p-0">
@@ -88,7 +88,11 @@ const showDetail = (data) => {
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-            ${getContent(data)}
+                ${getContent(data)}
+                <div class="footer d-flex justify-content-between align-items-center p-2 mb-3" style="background-color: #40E0D0;">
+                    <h2 class="text-white m-0">Total</h2>
+                    <h2 class="text-white m-0"><span id="totalPrice">0</span></h2>
+                </div>
             </div>
         </div>
 
