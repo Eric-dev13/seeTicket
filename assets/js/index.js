@@ -39,15 +39,19 @@ const showEvents = async () => {
                 </div>
 
                 <h1 class="text-center fw-bold mb-4">Nos évenements</h1>
+                ${eventDetail(evenements)}
                 `
+    getDetailPrices();
+}
 
-    evenements._embedded.hours.map(evenement => {
-        // 
-        root.innerHTML += `
+const eventDetail = (evenements) =>{
+    let data= '';
+    evenements._embedded.hours.map(evenement => { 
+        data += `
                 <div data-showId = "${evenement.showId}" class="eventDetail d-flex flex-column align-items-center justify-content-center mb-2" style="cursor:pointer;">
                     <div class="card" style="width: 18rem;">
                         <img src="assets/img/bg.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             <h5 class="card-title fw-bold text-center">${evenement.eventName}</h5>
                             <p class="text-muted fw-semibold text-center">${evenement.dateStart.split(' ')[0]}</p>
                         </div>
@@ -55,9 +59,7 @@ const showEvents = async () => {
                 </div>
             `
     });
-
-
-    getDetailPrices()
+     return data;
 }
 
 
@@ -143,10 +145,10 @@ function getContent (data) {
             <h4>${element.name}</h4>
             <small>${element.requiredDocument}</small>
             <div class="d-flex justify-content-between align-items-center">
-                <p>${element.valueCents} €</p>
+                <p>${element.valueCents/100} €</p>
                 <div class="d-flex justify-content-between">
                     <img src="assets/img/moins.png" alt="" width="30" class="me-1">
-                    1
+                    <span class="fw-bold">0</span>
                     <img src="assets/img/plus.png" alt="" width="30" class="ms-1">
                 </div>
             </div>
