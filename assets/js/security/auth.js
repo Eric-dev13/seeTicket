@@ -16,7 +16,7 @@ export const authenticate = async () => {
         .then(response => response.json())
         .then(data => {
             localStorage.setItem('token', data.accessToken);
-            return data.accessToken;
+            return data;
             }
         );
 }
