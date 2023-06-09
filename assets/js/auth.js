@@ -5,25 +5,19 @@ export const authenticate = async () => {
     const credentials = `${id}:${password}`;
     const encodedCredentials = btoa(credentials);
 
-    try {
-        const authResponse = await fetch('https://front.apirecette.digitick-ppe.com/v1.1/authorization/token', {
-            method: 'POST',
-            headers: {
-                'accept': 'application/hal+json',
-                'Authorization': `Basic ${encodedCredentials}`
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'accept': 'application/hal+json',
+            'Authorization': `Basic ${encodedCredentials}`
+        },
+    };
+    return fetch('https://front.apirecette.digitick-ppe.com/v1.1/authorization/token', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            localStorage.setItem('token', data.accessToken);
+            return data.accessToken;
             }
-        });
-
-        if (authResponse.ok) {
-            const authData = await authResponse.json();
-            console.log('Token d\'accès :', authData.accessToken);
-            localStorage.setItem('token', authData.accessToken);
-            return authData.accessToken;
-        } else {
-            throw new Error('Erreur lors de l\'authentification.');
-        }
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
+        );
 }
+
