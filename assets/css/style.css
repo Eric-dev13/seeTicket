@@ -7,3 +7,26 @@
   .btn-icon i {
     font-size: 15px; /* Taille personnalisée des icônes */
   }
+
+  .quantity-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .quantity-btn i {
+    color: white;
+  }
+
+  .quantity {
+    font-weight: bold;
+    margin: 0 10px;
+    font-size: 20px;
+    color: black;
+  }

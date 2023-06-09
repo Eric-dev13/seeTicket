@@ -117,11 +117,11 @@ const showDetail = (data) => {
 
         <div class="accordion-item">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Paimement
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
+                    Paiement
                 </button>
             </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                 </div>
@@ -147,22 +147,23 @@ const showDetail = (data) => {
     `;
 }
 
-function getContent (data) {
-    let content='';
+function getContent(data) {
+    let content = '';
     data.forEach(element => {
-        content +=`
-        <div class="border p-2 rounded mb-3">
-            <h4>${element.name}</h4>
-            <small>${element.requiredDocument}</small>
-            <div class="d-flex justify-content-between align-items-center">
-                <p>${element.valueCents/100} €</p>
-                <div class="d-flex justify-content-between">
-                    <img src="assets/img/moins.png" alt="" width="30" class="me-1">
-                    <span class="fw-bold">0</span>
-                    <img src="assets/img/plus.png" alt="" width="30" class="ms-1">
+        const price = (element.valueCents / 100).toFixed(0);
+        content += `
+            <div class="border p-2 rounded mb-3">
+                <h4>${element.name}</h4>
+                <small>${element.requiredDocument}</small>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="price"${price} €</p>
+                    <div class="d-flex justify-content-between">
+                        <button class="quantity-btn minus-btn"><i class="fas fa-minus"></i></button>
+                        <span class="quantity">0</span>
+                        <button class="quantity-btn plus-btn"><i class="fas fa-plus"></i></button>
+                    </div>
                 </div>
             </div>
-        </div>
         `;
     });
     return content;
