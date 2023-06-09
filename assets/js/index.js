@@ -42,18 +42,20 @@ const showEvents = async () => {
                 `
 
     evenements._embedded.hours.map(evenement => {
+        // 
         root.innerHTML += `
                 <div data-showId = "${evenement.showId}" class="eventDetail d-flex flex-column align-items-center justify-content-center mb-2" style="cursor:pointer;">
                     <div class="card" style="width: 18rem;">
                         <img src="assets/img/bg.jpg" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title fw-bold">${evenement.eventName}</h5>
-                            <small class="text-muted fw-semibold">${evenement.dateStart}</small>
+                            <h5 class="card-title fw-bold text-center">${evenement.eventName}</h5>
+                            <p class="text-muted fw-semibold text-center">${evenement.dateStart.split(' ')[0]}</p>
                         </div>
                     </div>
                 </div>
             `
     });
+
 
     getDetailPrices()
 }
@@ -74,91 +76,85 @@ const getDetailPrices = () => {
 }
 
 const showDetail = (data) => {
-    // root.innerHTML = `
-    //     <div class="d-flex justify-content-end py-3">
-    //         <select id="langues" class="custom-select text-bg-dark rounded p-1" style="width: 150px;">
-    //             <option value="fr">Français</option>
-    //             <option value="en">English</option>
-    //             <option value="es">Español</option>
-    //         </select>
-    //     </div>
-    //     <div>
-    //         <img src="assets/img/bg.jpg" class="img-thumbnail mb-2" alt="...">
-    //         <div class="w-100 d-flex justify-content-end mb-3">
-    //             <a href="#"class="text-bg-primary rounded px-2">+infos</a>
-    //         </div>
-
-    //         <div class="accordion" id="accordionExample">
-    //             <div class="accordion-item">
-    //                 <h2 class="accordion-header">
-    //                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-    //                         Places
-    //                     </button>
-    //                 </h2>
-    //                 <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-    //                     <div class="accordion-body">
-    // `;
-    root.innerHTML = ``;
-    data.forEach(element => {
-        root.innerHTML += `
-        <div class="border p-2 rounded mb-3">
-            <h4>${element.name}</h4>
-            <p>${element.requiredDocument}</p>
-            <div class="d-flex justify-content-between">
-                <p>${element.valueCents}</p>
-                <div>
+    root.innerHTML = `
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Places
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+            ${getContent(data)}
             </div>
-            
-            
         </div>
-        `;
-    })
-    // root.innerHTML += `    
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //             <div class="accordion-item">
-    //                 <h2 class="accordion-header">
-    //                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-    //                         Coordonnées
-    //                     </button>
-    //                 </h2>
-    //                 <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-    //                     <div class="accordion-body">
-    //                         <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //             <div class="accordion-item">
-    //                 <h2 class="accordion-header">
-    //                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-    //                         Paiements
-    //                     </button>
-    //                 </h2>
-    //                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-    //                     <div class="accordion-body">
-    //                         <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //             <div class="accordion-item">
-    //                 <h2 class="accordion-header">
-    //                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-    //                         Description
-    //                     </button>
-    //                 </h2>
-    //             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-    //                 <div class="accordion-body">
-    //                     <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-    //                 </div>
-    //             </div>
-    //         </div>
-    //             </div>
-            
-    //     </div>
-    // `
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Coordonnées
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Paimement
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Description
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <a href="" class="btn btn-secondary my-3 w-100 rounded-pill fw-bold fs-5">Ajouter</a>
+    `;
 }
 
+function getContent (data) {
+    let content='';
+    data.forEach(element => {
+        content +=`
+        <div class="border p-2 rounded mb-3">
+            <h4>${element.name}</h4>
+            <small>${element.requiredDocument}</small>
+            <div class="d-flex justify-content-between align-items-center">
+                <p>${element.valueCents} €</p>
+                <div class="d-flex justify-content-between">
+                    <img src="assets/img/moins.png" alt="" width="30" class="me-1">
+                    1
+                    <img src="assets/img/plus.png" alt="" width="30" class="ms-1">
+                </div>
+            </div>
+        </div>
+        `;
+    });
+    return content;
+}
 
 // Authentification sur l'api See Tickets + affichage les évenements.
 const start = async () => {

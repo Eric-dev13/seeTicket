@@ -1,0 +1,9 @@
+.btn-icon {
+    padding: 0;
+    width: 30px;
+    height: 30px;
+  }
+
+  .btn-icon i {
+    font-size: 15px; /* Taille personnalisée des icônes */
+  }
