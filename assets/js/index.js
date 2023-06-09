@@ -100,8 +100,18 @@ const showDetail = (data) => {
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
+                    <h6 class="mb-3">Ajoute ton adresse e-mail pour recevoir ton billet</h6>
+                    <form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Adresse e-mail</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailConfirmation" class="form-label">Confirmation de l'adresse e-mail</label>
+                            <input type="email" class="form-control" id="emailConfirmation">
+                        </div>
+                    </form>
+                </div> 
             </div>
         </div>
 
